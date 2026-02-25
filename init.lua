@@ -305,7 +305,18 @@ require('lazy').setup({
       },
 
       -- Useful status updates for LSP.
-      { 'j-hui/fidget.nvim', opts = {} },
+      -- { 'j-hui/fidget.nvim', opts = {} },
+      {
+        'j-hui/fidget.nvim',
+        opts = {
+          notification = {
+            window = {
+              winblend = 0, -- solid background (no weird blending bars)
+              winhighlight = 'NormalFloat:NormalFloat,FloatBorder:FloatBorder',
+            },
+          },
+        },
+      },
 
       -- Allows extra capabilities provided by blink.cmp
       'saghen/blink.cmp',
@@ -461,7 +472,6 @@ require('lazy').setup({
 
   { -- Autoformat
     'stevearc/conform.nvim',
-    event = { 'BufWritePre' },
     cmd = { 'ConformInfo' },
     keys = {
       {
@@ -473,20 +483,7 @@ require('lazy').setup({
     },
     opts = {
       notify_on_error = false,
-      format_on_save = function(bufnr)
-        -- Disable "format_on_save lsp_fallback" for languages that don't
-        -- have a well standardized coding style. You can add additional
-        -- languages here or re-enable it for the disabled ones.
-        local disable_filetypes = { c = true, cpp = true }
-        if disable_filetypes[vim.bo[bufnr].filetype] then
-          return nil
-        else
-          return {
-            timeout_ms = 500,
-            lsp_format = 'fallback',
-          }
-        end
-      end,
+      format_on_save = false,
       formatters_by_ft = {
         lua = { 'stylua' },
         javascript = { 'prettier' },
@@ -593,7 +590,7 @@ require('lazy').setup({
 
           -- Messing around
           hl.FoldColumn = { bg = c.bg_dark }
-          hl.ModeMsg = { bg = c.bg_dark }
+          --  hl.ModeMsg = { bg = c.bg_dark }
         end,
       }
       vim.cmd.colorscheme 'tokyonight-moon'

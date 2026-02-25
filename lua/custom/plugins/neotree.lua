@@ -25,7 +25,7 @@ return {
     window = {
       width = 32,
       mappings = {
-        ['<space>'] = 'toggle_node',
+        ['<leader>e'] = 'noop',
         ['l'] = 'open',
         ['h'] = 'close_node',
         ['S'] = 'open_split',
