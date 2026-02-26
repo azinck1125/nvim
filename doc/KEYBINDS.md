@@ -85,10 +85,6 @@ These are also set on LspAttach. :contentReference[oaicite:10]{index=10}
 - `gO` — document symbols
 - `gW` — workspace symbols
 
-### Inlay hints
-
-- `<leader>h` — toggle inlay hints (only if server supports it) :contentReference[oaicite:11]{index=11}
-
 ---
 
 ## A4) Formatting (conform.nvim)
