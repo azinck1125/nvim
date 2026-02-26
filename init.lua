@@ -12,11 +12,16 @@ vim.o.mouse = 'a'
 vim.o.showmode = false
 
 -- OSC 52 clipboard: works reliably over SSH -> Windows Terminal
+local osc52 = require('vim.ui.clipboard.osc52')
 vim.g.clipboard = {
-  name = 'OKC 52',
+  name = 'OSC 52',
+  -- copy = {
+  --   ['+'] = require('vim.ui.clipboard.osc52').copy '+',
+  --   ['*'] = require('vim.ui.clipboard.osc52').copy '*',
+  -- },
   copy = {
-    ['+'] = require('vim.ui.clipboard.osc52').copy '+',
-    ['*'] = require('vim.ui.clipboard.osc52').copy '*',
+    ['+'] = osc52.copy '+',
+    ['*'] = osc52.copy '*',
   },
   paste = {
     ['+'] = require('vim.ui.clipboard.osc52').paste '+',
