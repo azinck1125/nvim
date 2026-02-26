@@ -35,11 +35,6 @@ return {
       { '<F8>', function() require('dap').step_into() end, desc = 'DAP: Step into' },
       { '<F10>', function() require('dap').terminate() end, desc = 'DAP: Terminate' },
       { '<S-F11>', function() require('dap').step_out() end, desc = 'DAP: Step out' },
-      -- { '<leader>dc', function() require('dap').continue() end, desc = 'DAP: Continue' },
-      -- { '<leader>dn', function() require('dap').step_over() end, desc = 'DAP: Step over' },
-      -- { '<leader>di', function() require('dap').step_into() end, desc = 'DAP: Step into' },
-      -- { '<leader>do', function() require('dap').step_out() end, desc = 'DAP: Step out' },
-      -- { '<leader>dq', function() require('dap').terminate() end, desc = 'DAP: Terminate' },
 
       -- UI + helpers
       { '<leader>du', function() require('dapui').toggle() end, desc = 'DAP: Toggle UI' },
@@ -61,6 +56,61 @@ return {
           -- add more later (node2, chrome, etc.) if you want
         },
       }
+
+      -- Solid background for DAP UI windows (transparent Normal doesn't apply here)
+      local dapui_hl = 'Normal:NormalSolid,SignColumn:NormalSolid,EndOfBuffer:NormalSolid'
+
+      local function apply_dapui_bg()
+        vim.schedule(function()
+          for _, win in ipairs(vim.api.nvim_list_wins()) do
+            local buf = vim.api.nvim_win_get_buf(win)
+            local ft = vim.bo[buf].filetype
+            if ft:match '^dapui_' or ft == 'dap-repl' then vim.wo[win].winhighlight = dapui_hl end
+          end
+        end)
+      end
+
+      vim.api.nvim_create_autocmd('BufWinEnter', {
+        pattern = '*',
+        callback = function()
+          local ft = vim.bo.filetype
+          if ft:match '^dapui_' or ft == 'dap-repl' then vim.wo.winhighlight = dapui_hl end
+        end,
+      })
+
+      -- Persistent DAP terminal — survives dapui.close(), cleaned up on next launch
+      local dap_term = { buf = nil, win = nil }
+
+      local function cleanup_dap_term()
+        if dap_term.win and vim.api.nvim_win_is_valid(dap_term.win) then vim.api.nvim_win_close(dap_term.win, true) end
+        if dap_term.buf and vim.api.nvim_buf_is_valid(dap_term.buf) then vim.api.nvim_buf_delete(dap_term.buf, { force = true }) end
+        dap_term = { buf = nil, win = nil }
+      end
+
+      local function find_dap_terminal_buf()
+        for _, buf in ipairs(vim.api.nvim_list_bufs()) do
+          if vim.api.nvim_buf_is_valid(buf) and vim.bo[buf].buftype == 'terminal' then
+            local name = vim.api.nvim_buf_get_name(buf)
+            if name:match 'dap%-terminal' then return buf end
+          end
+        end
+        return nil
+      end
+
+      local function persist_dap_terminal()
+        if dap_term.win and vim.api.nvim_win_is_valid(dap_term.win) then return end
+        local buf = find_dap_terminal_buf()
+        dapui.close()
+        if not buf then return end
+        vim.cmd 'botright split'
+        vim.cmd 'resize 12'
+        local win = vim.api.nvim_get_current_win()
+        vim.api.nvim_win_set_buf(win, buf)
+        vim.wo[win].winhighlight = dapui_hl
+        dap_term.buf = buf
+        dap_term.win = win
+        vim.cmd 'wincmd p'
+      end
 
       -- UI setup
       dapui.setup {
@@ -87,9 +137,12 @@ return {
       }
 
       -- Auto open/close UI
-      dap.listeners.after.event_initialized['dapui_config'] = function() dapui.open() end
-      dap.listeners.before.event_terminated['dapui_config'] = function() dapui.close() end
-      dap.listeners.before.event_exited['dapui_config'] = function() dapui.close() end
+      dap.listeners.after.event_initialized['dapui_config'] = function()
+        dapui.open()
+        apply_dapui_bg()
+      end
+      dap.listeners.after.event_terminated['dapui_config'] = persist_dap_terminal
+      dap.listeners.after.event_exited['dapui_config'] = persist_dap_terminal
 
       -- Nicer signs (optional)
       vim.fn.sign_define('DapBreakpoint', { text = '●', texthl = 'DiagnosticError', linehl = '', numhl = '' })
@@ -120,6 +173,16 @@ return {
           return vim.fn.split(input, ' ')
         end,
       })
+
+      -- Override launch keymaps to clean up persisted terminal BEFORE starting a new session
+      vim.keymap.set('n', '<F5>', function()
+        cleanup_dap_term()
+        dap.continue()
+      end, { desc = 'DAP: Continue' })
+      vim.keymap.set('n', '<leader>dl', function()
+        cleanup_dap_term()
+        dap.run_last()
+      end, { desc = 'DAP: Run last' })
     end,
   },
 }

@@ -11,6 +11,19 @@ vim.o.mouse = 'a'
 
 vim.o.showmode = false
 
+-- OSC 52 clipboard: works reliably over SSH -> Windows Terminal
+vim.g.clipboard = {
+  name = 'OKC 52',
+  copy = {
+    ['+'] = require('vim.ui.clipboard.osc52').copy '+',
+    ['*'] = require('vim.ui.clipboard.osc52').copy '*',
+  },
+  paste = {
+    ['+'] = require('vim.ui.clipboard.osc52').paste '+',
+    ['*'] = require('vim.ui.clipboard.osc52').paste '*',
+  },
+}
+
 vim.schedule(function() vim.o.clipboard = 'unnamedplus' end)
 
 vim.o.breakindent = true
@@ -482,7 +495,7 @@ require('lazy').setup({
       },
     },
     opts = {
-      notify_on_error = false,
+      notify_on_error = true,
       format_on_save = false,
       formatters_by_ft = {
         lua = { 'stylua' },
@@ -590,19 +603,9 @@ require('lazy').setup({
 
           -- Messing around
           hl.FoldColumn = { bg = c.bg_dark }
-          --  hl.ModeMsg = { bg = c.bg_dark }
         end,
       }
       vim.cmd.colorscheme 'tokyonight-moon'
-
-      -- Make DAP UI windows use solid background even though Normal is transparent
-      vim.api.nvim_create_autocmd('FileType', {
-        pattern = { 'dapui_scopes', 'dapui_breakpoints', 'dapui_stacks', 'dapui_watches', 'dap-repl', 'dapui_console' },
-        callback = function()
-          -- Force this window to render Normal as our solid group
-          vim.wo.winhighlight = 'Normal:NormalSolid,SignColumn:SignColumn,LineNr:LineNr,CursorLineNr:CursorLineNr'
-        end,
-      })
     end,
   },
 
@@ -678,20 +681,9 @@ require('lazy').setup({
     end,
   },
 
-  -- NOTE: The import below can automatically add your own plugins, configuration, etc from `lua/custom/plugins/*.lua`
-  --    This is the easiest way to modularize your config.
-  --
-  --  Uncomment the following line and add your plugins to `lua/custom/plugins/*.lua` to get going.
   { import = 'custom.plugins' },
-  --
-  -- For additional information with loading, sourcing and examples see `:help lazy.nvim-🔌-plugin-spec`
-  -- Or use telescope!
-  -- In normal mode type `<space>sh` then write `lazy.nvim-plugin`
-  -- you can continue same window with `<space>sr` which resumes last telescope search
 }, {
   ui = {
-    -- If you are using a Nerd Font: set icons to an empty table which will use the
-    -- default lazy.nvim defined Nerd Font icons, otherwise define a unicode icons table
     icons = vim.g.have_nerd_font and {} or {
       cmd = '⌘',
       config = '🛠',
