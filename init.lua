@@ -4,6 +4,30 @@ vim.g.maplocalleader = ' '
 
 vim.g.have_nerd_font = true
 
+-- English spell-check
+vim.opt.spell = true
+vim.opt.spelllang = { 'en_us' }
+
+vim.keymap.set('n', '<leader>us', function() vim.o.spell = not vim.o.spell end, { desc = 'Toggle spell' })
+
+local function loud_spell()
+  vim.api.nvim_set_hl(0, 'SpellBad', {
+    sp = '#f7768e',
+    undercurl = true,
+  })
+
+  vim.api.nvim_set_hl(0, 'SpellCap', { undercurl = true, sp = '#e0af68' })
+  vim.api.nvim_set_hl(0, 'SpellRare', { undercurl = true, sp = '#bb9af7' })
+  vim.api.nvim_set_hl(0, 'SpellLocal', { undercurl = true, sp = '#7dcfff' })
+end
+
+vim.api.nvim_create_autocmd('ColorScheme', {
+  callback = loud_spell,
+})
+
+loud_spell()
+
+-- Relative line numbers
 vim.o.number = true
 vim.o.relativenumber = true
 
@@ -12,7 +36,7 @@ vim.o.mouse = 'a'
 vim.o.showmode = false
 
 -- OSC 52 clipboard: works reliably over SSH -> Windows Terminal
-local osc52 = require('vim.ui.clipboard.osc52')
+local osc52 = require 'vim.ui.clipboard.osc52'
 vim.g.clipboard = {
   name = 'OSC 52',
   -- copy = {
@@ -611,11 +635,9 @@ require('lazy').setup({
         end,
       }
       vim.cmd.colorscheme 'tokyonight-moon'
+      loud_spell()
     end,
   },
-
-  -- Highlight todo, notes, etc in comments
-  { 'folke/todo-comments.nvim', event = 'VimEnter', dependencies = { 'nvim-lua/plenary.nvim' }, opts = { signs = false } },
 
   { -- Collection of various small independent plugins/modules
     'nvim-mini/mini.nvim',
@@ -720,5 +742,6 @@ vim.opt.foldenable = true
 vim.opt.foldcolumn = '1' -- shows fold markers in gutter
 vim.opt.fillchars = { fold = ' ' } -- cleaner look
 
+loud_spell()
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
