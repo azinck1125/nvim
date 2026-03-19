@@ -123,6 +123,7 @@ return {
       },
       -- ruff = {},
 
+      ts_ls = {},
       jsonls = {},
       yamlls = {},
       bashls = {},
