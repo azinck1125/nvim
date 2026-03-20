@@ -50,10 +50,10 @@ vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper win
 
 vim.keymap.set('n', '<leader>wh', ':vertical resize -5<CR>')
 vim.keymap.set('n', '<leader>wl', ':vertical resize +5<CR>')
-vim.keymap.set('n', '<leader>wj', ':resize +5<CR>')
-vim.keymap.set('n', '<leader>wk', ':resize -5<CR>')
+vim.keymap.set('n', '<leader>wj', ':resize -5<CR>')
+vim.keymap.set('n', '<leader>wk', ':resize +5<CR>')
 
-vim.keymap.set('n', '<leader>wJ', function()
+vim.keymap.set('n', '<leader>wK', function()
   vim.cmd('wincmd _')
 end, {desc = 'maximize vertical'})
 vim.keymap.set('n', '<leader>wL', function()

@@ -26,9 +26,21 @@ return { -- Collection of various small independent plugins/modules
     ---@diagnostic disable-next-line: duplicate-set-field
     local default_section_filename = statusline.section_filename
 
-    local saveStatusIcon = function(args)
-      if _G.autosave_is_active() then
+    function _G.autosave_state()
+      if not vim.g.autosave_enabled then return 'off' end
+
+      if _G.autosave_is_active() then return 'on' end
+
+      return 'ignored'
+    end
+
+    local saveStatusIcon = function()
+      local state = _G.autosave_state()
+
+      if state == 'on' then
         return '%#AutoSaveOn# ●%*'
+      elseif state == 'ignored' then
+        return '%#AutoSaveIgnored# ●%*'
       else
         return '%#AutoSaveOff# ●%*'
       end

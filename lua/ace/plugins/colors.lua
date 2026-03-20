@@ -36,9 +36,9 @@ return {
             vim.api.nvim_set_hl(0, '@module', { link = 'Identifier' })
           end,
         })
-        -- vim.api.nvim_set_hl(0, 'AutoSaveOn', { fg = '#9ece6a', bold = true }) -- green
-        vim.api.nvim_set_hl(0, 'AutoSaveOn', { fg = c.green2, bold = true }) -- green
-        vim.api.nvim_set_hl(0, 'AutoSaveOff', { fg = c.warning, bold = true }) -- red
+        vim.api.nvim_set_hl(0, 'AutoSaveOn', { fg = c.green2, bold = false }) -- green
+        vim.api.nvim_set_hl(0, 'AutoSaveIgnored', { fg = c.warning, bold = false }) -- green
+        vim.api.nvim_set_hl(0, 'AutoSaveOff', { fg = c.blue, bold = false }) -- red
       end,
     }
     vim.cmd.colorscheme 'tokyonight-moon'

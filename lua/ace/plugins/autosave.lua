@@ -84,7 +84,7 @@ vim.keymap.set('n', '<leader>ua', function()
   elseif _G.autosave_is_active() then
     msg = 'ON'
   else
-    msg = 'CANNOT BE ENABLED IN THIS BUFFER'
+    msg = 'OFF (BUFFER)'
   end
 
   print('Autosave: ' .. msg)
