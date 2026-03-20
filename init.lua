@@ -1,13 +1,11 @@
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 
-
 vim.g.have_nerd_font = true
 
 -- English spell-check
 vim.opt.spell = true
 vim.opt.spelllang = { 'en_us' }
-
 
 -- Relative line numbers
 vim.o.number = true
@@ -88,7 +86,6 @@ vim.diagnostic.config {
   jump = { float = true },
 }
 
-
 vim.api.nvim_create_autocmd('TextYankPost', {
   desc = 'Highlight when yanking (copying) text',
   group = vim.api.nvim_create_augroup('kickstart-highlight-yank', { clear = true }),
@@ -106,55 +103,8 @@ end
 local rtp = vim.opt.rtp
 rtp:prepend(lazypath)
 
-require("ace") -- NOTE: the actual config
+require 'ace' -- NOTE: the actual config
 require('lazy').setup({
-  { 'NMAC427/guess-indent.nvim', opts = {} },
-
-  {
-    'folke/tokyonight.nvim', -- https://github.com/folke/tokyonight.nvim
-    priority = 1000, -- Make sure to load this before all the other start plugins.
-    config = function()
-      ---@diagnostic disable-next-line: missing-fields
-      require('tokyonight').setup {
-        styles = {
-          comments = { italic = false }, -- Disable italics in comments
-        },
-        transparent = true,
-
-        on_highlights = function(hl, c)
-          -- Create a solid background group we can point windows to
-          hl.NormalSolid = { bg = c.bg_dark, fg = c.fg }
-
-          -- gutter
-          hl.SignColumn = { bg = c.bg_dark }
-          hl.LineNr = { bg = c.bg_dark }
-          hl.CursorLineNr = { bg = c.bg_dark }
-          hl.LineNrAbove = { bg = c.bg_dark }
-          hl.LineNrBelow = { bg = c.bg_dark }
-
-          -- cmdline / messages area (this is the “command bar” vibe)
-          hl.MsgArea = { bg = c.bg_dark }
-          hl.MsgSeparator = { bg = c.bg_dark }
-          hl.Cmdline = { bg = c.bg_dark }
-          hl.CmdlinePrompt = { bg = c.bg_dark }
-
-          -- Messing around
-          hl.FoldColumn = { bg = c.bg_dark }
-
-          -- imports modification
-          vim.api.nvim_create_autocmd('ColorScheme', {
-            callback = function()
-              vim.api.nvim_set_hl(0, '@keyword.import', { link = 'Keyword' })
-              vim.api.nvim_set_hl(0, '@module', { link = 'Identifier' })
-            end,
-          })
-        end,
-      }
-      vim.cmd.colorscheme 'tokyonight-moon'
-    end,
-  },
-
-  { import = 'custom.plugins' },
   { import = 'ace.plugins' },
 }, {
   ui = {
