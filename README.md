@@ -1,24 +1,50 @@
 # azinck1125/nvim
 
-My Neovim config, kickstart-based, tuned for daily driving (Python + TS/JS + general editing).
+My daily-driver Neovim config, originally kickstart-based and then pushed toward a setup that feels good for Python, TS/JS, general editing, debugging
 
-- **Plugin manager:** lazy.nvim (bootstrapped automatically)
-- **Theme:** TokyoNight Moon (transparent background, with solid DAP UI highlight group)
-- **Completion:** blink.cmp + LuaSnip
-- **Formatting:** conform.nvim (manual format key)
-- **LSP:** nvim-lspconfig + mason + mason-tool-installer
-- **Syntax:** Treesitter (plus Treesitter-based folding)
-- **QoL:** which-key, gitsigns, todo-comments, mini.nvim, guess-indent, telescope
+It’s built around:
+- `lazy.nvim` for plugin management
+- `tokyonight-moon` for the colorscheme
+- `blink.cmp` + `LuaSnip` for completion/snippets
+- `nvim-lspconfig` + Mason for LSP/tooling
+- Treesitter for syntax + folding
+- Telescope / Neo-tree / Harpoon for navigation
+- Conform for manual formatting
+- nvim-dap for Python debugging
+
+---
+
+## Features
+
+- Transparent TokyoNight Moon setup with a few custom highlight tweaks
+- OSC52 clipboard config for better SSH / terminal copy behavior
+- Manual formatting only (`<leader>f`) — no format-on-save
+- Treesitter-based folding with a high default foldlevel
+- Telescope-powered search for files, grep, diagnostics, commands, keymaps, and config files
+- Neo-tree explorer with reveal behavior
+- Harpoon for quick file pinning and jumping
+- Python-friendly LSP/debug setup
+- Markdown rendering toggle
+- Neogen docstring generation
+- Todo-comments with expanded custom keywords
+- DAP UI configured with solid-background handling for transparent themes
 
 ---
 
 ## Requirements
 
-- Neovim (current stable recommended)
+- Neovim stable
 - Git
-- A Nerd Font (optional, but recommended)
+- A Nerd Font
 - `ripgrep` (`rg`) for Telescope grep
-- `make` (optional) if you want `telescope-fzf-native` compiled acceleration
+- `make` for native Telescope FZF acceleration and optional snippet regex support
+
+Useful external tools:
+- `stylua`
+- `prettier`
+- `taplo`
+- `ruff` / `ruff_format`
+- language servers you want Mason to manage
 
 ---
 
@@ -41,6 +67,33 @@ nvim
 
 ---
 
+## Repo layout
+
+```
+.
+├── init.lua
+├── lua
+│   └── ace
+│       ├── init.lua
+│       ├── remap.lua
+│       └── plugins
+│           ├── colors.lua
+│           └── ...
+└── README.md
+```
+
+### Current structure note
+This repo is in a bit of an in-between state:
+
+`init.lua` still owns most of the core bootstrap / options / lazy setup
+
+`lua/ace/` exists and is where remaps + plugin files are being organized
+
+So this is partially modularized already, but not fully moved over yet.
+
+
+---
+
 ## "How do I use this?"
 
 ### Leader Key
@@ -52,33 +105,64 @@ nvim
 - Terminal: `<leader>t` — Toggle terminal in bottom split
 
 #### Visual block
-- `<leader>v` — Because I use WSL/windows terminal + SSH and `ctrl+v`. . . doesn't work like that with windows terminal
+- `<leader>v` — Because I use WSL/windows terminal + SSH and `ctrl+v`... doesn't work like that with windows terminal
 
 #### Telescope (search)
+
+> [!NOTE]
+> `<C-a>` means ctrl+a
+> `<C-a/s>` means ctrl+a or ctrl+s
+
 - `<leader>sf` — Find files
+- `<leader>ss` — Find git-tracked files
+- `<leader>sk` — Find keymaps
 - `<leader>sg` — Live grep (rip grep)
 - `<leader>sw` — Grep word under cursor
-- `<leader>sd` — Diagnostics picker
+- `<leader>sd` — Diagnostics
 - `<leader>sr` — Resume last Telescope picker
 - `<leader>sn` — Search inside Neovim config
+- `/` — fussy search current buffer
+- `<C-v>` — open in vertical split from telescope
+- `<C-t>` — open in horizontal split from telescope
 
 #### Formatting
 - `<leader>f` — Format buffer (async; LSP fallback)
 
 #### LSP "go to / actions"
 
-> [!NOTE]
-> `<C-a>` means ctrl+a
-> `<C-a/s>` means ctrl+a or ctrl+s
-
 - `<leader>grn` — Rename
 - `<leader>gra` — Code action
 - `<leader>grr` — References
 - `<leader>grd` — Definition
+- `<leader>grD` — Declaration
+- `<leader>gO` — document symbols
 - `<leader>gri` — Implementation
 - `<leader>grt` — Type definition
 
----
+#### Neo-tree
+- `<leader>e` — Toggle explorer
+- `<leader>r` — Reveal current file in explorer
+- `<leader>be` — open Neo-tree buffer
+
+#### Harpoon (file nav)
+- `<leader>a` — add file
+- `<leader>j` — show harpoon buffer (`dd` to remove entry, `:w` to save)
+- `<leader>1`..`5` — jump to Harpoon file slot
+- `<leader>h`/`<leader>h` — prev/next Harpoon item
+
+#### Marks (line nav)
+- `mj` — add `j` to marks at current line
+- `'j` — go to `j` line
+- I mostly stick to `j`/`k`/`l`/`;` for file marks
+
+#### DAP (python)
+- `<leader>b` — set/clear breakpoint at current line
+- `<leader>B` — clear all breakpoints
+- `<f5>` — open run menu
+- `<f8>` — step into
+- `<f10>` — terminate
+- `<leader>du` — toggle ui
+
 
 #### Window movement
 - `<C-h/j/k/l>` — Move focus between splits

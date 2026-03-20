@@ -23,13 +23,25 @@ return { -- Collection of various small independent plugins/modules
     -- set use_icons to true if you have a Nerd Font
     statusline.setup { use_icons = vim.g.have_nerd_font }
 
-    -- You can configure sections in the statusline by overriding their
-    -- default behavior. For example, here we set the section for
-    -- cursor location to LINE:COLUMN
     ---@diagnostic disable-next-line: duplicate-set-field
-    statusline.section_location = function() return '%2l:%-2v' end
+    local default_section_filename = statusline.section_filename
 
-    -- ... and there is more!
-    --  Check out: https://github.com/nvim-mini/mini.nvim
+    local saveStatusIcon = function(args)
+      if _G.autosave_is_active() then
+        return '%#AutoSaveOn# ●%*'
+      else
+        return '%#AutoSaveOff# ●%*'
+      end
+    end
+
+    ---@diagnostic disable-next-line: duplicate-set-field
+    statusline.section_location = function() return '%2l:%-2v' .. saveStatusIcon() end
+
+    ---@diagnostic disable-next-line: duplicate-set-field
+    statusline.section_filename = function(args)
+      local filename = default_section_filename(args)
+
+      return filename
+    end
   end,
 }
