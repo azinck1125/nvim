@@ -60,5 +60,10 @@ vim.keymap.set('n', '<leader>wL', function()
   vim.cmd('wincmd |')
 end, {desc = 'maximize horizontal'})
 
-
 -- NOTE: window mgnt end #####################################################################
+
+
+vim.keymap.set('n', '<leader>uw', function()
+  vim.wo.wrap = not vim.wo.wrap
+end, {desc = 'Toggle wrap'})
+
