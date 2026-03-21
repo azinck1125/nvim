@@ -25,6 +25,7 @@ return {
         hl.MsgSeparator = { bg = c.bg_dark }
         hl.Cmdline = { bg = c.bg_dark }
         hl.CmdlinePrompt = { bg = c.bg_dark }
+        hl.TerminalNormal = { bg = '#0C0D14' }
 
         -- Messing around
         hl.FoldColumn = { bg = c.bg_dark }

@@ -29,6 +29,13 @@ local function toggle_terminal()
 
   vim.cmd 'startinsert'
 end
+
+vim.api.nvim_create_autocmd('TermOpen', {
+  callback = function()
+    vim.wo.winhighlight = 'Normal:TerminalNormal'
+  end,
+})
+
 vim.keymap.set('n', '<leader>t', toggle_terminal, { desc = 'Toggle terminal (bottom)' })
 
 -- exit terminal mode easily

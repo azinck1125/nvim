@@ -15,14 +15,19 @@ return {
     },
 
     -- Useful status updates for LSP.
-    -- { 'j-hui/fidget.nvim', opts = {} },
     {
       'j-hui/fidget.nvim',
       opts = {
         notification = {
           window = {
-            winblend = 0, -- solid background (no weird blending bars)
-            winhighlight = 'NormalFloat:NormalFloat,FloatBorder:FloatBorder',
+            relative = 'editor',
+            align = 'bottom',
+            x_padding = 0,
+            y_padding = 0,
+            max_width = 40,
+            winblend = 0,
+            normal_hl = 'NormalFloat',
+            border_hl = 'FloatBorder',
           },
         },
       },
