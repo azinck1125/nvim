@@ -29,6 +29,7 @@ return {
 
         -- Messing around
         hl.FoldColumn = { bg = c.bg_dark }
+        hl.NormalFloat = { bg = '#0C0D14' }
 
         -- imports modification
         vim.api.nvim_create_autocmd('ColorScheme', {
