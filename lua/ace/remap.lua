@@ -53,17 +53,12 @@ vim.keymap.set('n', '<leader>wl', ':vertical resize +5<CR>')
 vim.keymap.set('n', '<leader>wj', ':resize -5<CR>')
 vim.keymap.set('n', '<leader>wk', ':resize +5<CR>')
 
-vim.keymap.set('n', '<leader>wK', function()
-  vim.cmd('wincmd _')
-end, {desc = 'maximize vertical'})
-vim.keymap.set('n', '<leader>wL', function()
-  vim.cmd('wincmd |')
-end, {desc = 'maximize horizontal'})
+vim.keymap.set('n', '<leader>wK', function() vim.cmd 'wincmd _' end, { desc = 'maximize vertical' })
+vim.keymap.set('n', '<leader>wL', function() vim.cmd 'wincmd |' end, { desc = 'maximize horizontal' })
+
+vim.keymap.set('n', '<leader>uw', function() vim.wo.wrap = not vim.wo.wrap end, { desc = 'Toggle wrap' })
 
 -- NOTE: window mgnt end #####################################################################
 
-
-vim.keymap.set('n', '<leader>uw', function()
-  vim.wo.wrap = not vim.wo.wrap
-end, {desc = 'Toggle wrap'})
-
+vim.keymap.set('v', 'J', ":m '>+1<CR>gv=gv")
+vim.keymap.set('v', 'K', ":m '<-2<CR>gv=gv")
