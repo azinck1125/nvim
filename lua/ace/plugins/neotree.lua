@@ -9,7 +9,7 @@ return {
   },
   keys = {
     { '<leader>e', '<cmd>Neotree toggle<cr>', desc = 'Explorer (Neo-tree)' },
-    { '<leader>r', '<cmd>Neotree reveal<cr>', desc = 'Reveal file in Neo-tree' },
+    --{ '<leader>rr', '<cmd>Neotree reveal<cr>', desc = 'Reveal file in Neo-tree' },
     { '<leader>be', '<cmd>Neotree buffers toggle<cr>', desc = 'Buffers (Neo-tree)' },
   },
   opts = {

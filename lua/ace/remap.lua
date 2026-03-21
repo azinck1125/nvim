@@ -31,9 +31,7 @@ local function toggle_terminal()
 end
 
 vim.api.nvim_create_autocmd('TermOpen', {
-  callback = function()
-    vim.wo.winhighlight = 'Normal:TerminalNormal'
-  end,
+  callback = function() vim.wo.winhighlight = 'Normal:TerminalNormal' end,
 })
 
 vim.keymap.set('n', '<leader>t', toggle_terminal, { desc = 'Toggle terminal (bottom)' })
@@ -69,3 +67,11 @@ vim.keymap.set('n', '<leader>uw', function() vim.wo.wrap = not vim.wo.wrap end, 
 
 vim.keymap.set('v', 'J', ":m '>+1<CR>gv=gv")
 vim.keymap.set('v', 'K', ":m '<-2<CR>gv=gv")
+
+vim.keymap.set('n', '<C-d>', '<C-d>zz')
+vim.keymap.set('n', '<C-u>', '<C-u>zz')
+
+vim.keymap.set('x', '<leader>p', '"_dP')
+
+vim.keymap.set('n', '<leader>rf', ':%s/\\<<C-r><C-w>\\>/<C-r><C-w>/gI<Left><Left><Left>', { desc = 'replace word in file' })
+vim.keymap.set('n', '<leader>x', '<cmd>!chmod +x %<CR>', { silent = true, desc = 'make file executable'})
