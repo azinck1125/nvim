@@ -27,6 +27,13 @@ return {
         hl.CmdlinePrompt = { bg = c.bg_dark }
         hl.TerminalNormal = { bg = '#0C0D14' }
 
+        -- telescope
+        hl.TelescopeNormal = { bg = '#0C0D14' }
+        hl.TelescopeBorder = { bg = '#0C0D14' }
+        hl.TelescopePromptNormal = { bg = '#0C0D14' }
+        hl.TelescopeResultsNormal = { bg = '#0C0D14' }
+        hl.TelescopePreviewNormal = { bg = '#0C0D14' }
+
         -- Messing around
         hl.FoldColumn = { bg = c.bg_dark }
         hl.NormalFloat = { bg = '#0C0D14' }
