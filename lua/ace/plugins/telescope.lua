@@ -1,4 +1,4 @@
-return { -- Fuzzy Finder (files, lsp, etc)
+return { -- Fuzzy Finder (files, lsp, etc) New text
     'nvim-telescope/telescope.nvim',
 
     enabled = true,
@@ -15,6 +15,7 @@ return { -- Fuzzy Finder (files, lsp, etc)
       { 'nvim-telescope/telescope-ui-select.nvim' },
 
       { 'nvim-tree/nvim-web-devicons', enabled = vim.g.have_nerd_font },
+      "debugloop/telescope-undo.nvim",
     },
     config = function()
       -- [[ Configure Telescope ]]
@@ -43,12 +44,15 @@ return { -- Fuzzy Finder (files, lsp, etc)
         },
         extensions = {
           ['ui-select'] = { require('telescope.themes').get_dropdown() },
+          undo = {},
         },
       }
 
       -- Enable Telescope extensions if they are installed
       pcall(require('telescope').load_extension, 'fzf')
       pcall(require('telescope').load_extension, 'ui-select')
+      pcall(require('telescope').load_extension, 'undo')
+      vim.keymap.set('n', '<leader>su', '<cmd>Telescope undo<cr>', { desc = 'Undo' })
 
       -- See `:help telescope.builtin`
       local builtin = require 'telescope.builtin'
