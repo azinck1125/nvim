@@ -5,6 +5,7 @@ vim.g.autosave_enabled = true
 
 local ignore_paths = {
   vim.fn.stdpath('config'),
+  vim.fs.normalize(vim.fn.expand('~/.config')),
 }
 
 local function is_ignored(filepath)
