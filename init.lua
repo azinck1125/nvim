@@ -1,3 +1,5 @@
+-- dummy comment
+--
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 

@@ -32,6 +32,8 @@ return { -- Autocompletion
     keymap = {
       preset = 'none',
       ['<Tab>'] = { 'accept', 'fallback' },
+      ['<C-u>'] = { 'scroll_documentation_up', 'fallback' },
+      ['<C-d>'] = { 'scroll_documentation_down', 'fallback' },
       ['<S-Tab>'] = { 'select_prev', 'fallback' },
       ['<Down>'] = { 'select_next', 'fallback' },
       ['<Up>'] = { 'select_prev', 'fallback' },

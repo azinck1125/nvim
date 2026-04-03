@@ -46,6 +46,9 @@ Useful external tools:
 - `ruff` / `ruff_format`
 - language servers you want Mason to manage
 
+Recommended:
+[install] git ripgrep fd nodejs npm python python-pip
+
 ---
 
 ## Install

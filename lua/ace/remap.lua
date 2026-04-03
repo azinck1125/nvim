@@ -74,4 +74,5 @@ vim.keymap.set('n', '<C-u>', '<C-u>zz')
 vim.keymap.set('x', '<leader>p', '"_dP')
 
 vim.keymap.set('n', '<leader>rf', ':%s/\\<<C-r><C-w>\\>/<C-r><C-w>/gI<Left><Left><Left>', { desc = 'replace word in file' })
+vim.keymap.set('v', '<leader>rv', ':s/\\<<C-r><C-w>\\>/<C-r><C-w>/gI<Left><Left><Left>', { desc = 'replace word in selection' })
 vim.keymap.set('n', '<leader>x', '<cmd>!chmod +x %<CR>', { silent = true, desc = 'make file executable'})
