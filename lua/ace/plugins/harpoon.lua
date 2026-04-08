@@ -26,6 +26,17 @@ return {
     vim.keymap.set('n', '<leader>8', function() list:select(8) end)
     vim.keymap.set('n', '<leader>9', function() list:select(9) end)
 
+    -- jump by index
+    vim.keymap.set('n', '<C-1>', function() list:select(1) end, { desc = 'Harpoon: (file 1-9)' })
+    vim.keymap.set('n', '<C-2>', function() list:select(2) end)
+    vim.keymap.set('n', '<C-3>', function() list:select(3) end)
+    vim.keymap.set('n', '<C-4>', function() list:select(4) end)
+    vim.keymap.set('n', '<C-5>', function() list:select(5) end)
+    vim.keymap.set('n', '<C-6>', function() list:select(6) end)
+    vim.keymap.set('n', '<C-7>', function() list:select(7) end)
+    vim.keymap.set('n', '<C-8>', function() list:select(8) end)
+    vim.keymap.set('n', '<C-9>', function() list:select(9) end)
+
     require('which-key').add {
       { '<leader>2', hidden = true },
       { '<leader>3', hidden = true },
