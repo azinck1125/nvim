@@ -25,4 +25,4 @@ link_dir() {
   ln -s "$src" "$dest"
 }
 
-link_dir "$DOTFILES_DIR/nvim" "$HOME/.config/nvim"
+link_dir "$DOTFILES_DIR" "$HOME/.config/nvim"
