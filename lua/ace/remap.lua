@@ -1,6 +1,3 @@
-vim.keymap.set('n', '<leader>pv', vim.cmd.Ex, { desc = 'close to tree' })
-vim.keymap.set('n', '<leader>us', function() vim.o.spell = not vim.o.spell end, { desc = 'Toggle spell' })
-
 -- NOTE: Terminal start ##########################################################################
 local term_buf = nil
 local term_win = nil
@@ -64,6 +61,8 @@ vim.keymap.set('n', '<leader>wL', function() vim.cmd 'wincmd |' end, { desc = 'm
 vim.keymap.set('n', '<leader>uw', function() vim.wo.wrap = not vim.wo.wrap end, { desc = 'Toggle wrap' })
 
 -- NOTE: window mgnt end #####################################################################
+vim.keymap.set('n', '<leader>pv', vim.cmd.Ex, { desc = 'close to tree' })
+vim.keymap.set('n', '<leader>us', function() vim.o.spell = not vim.o.spell end, { desc = 'Toggle spell' })
 
 vim.keymap.set('v', 'J', ":m '>+1<CR>gv=gv")
 vim.keymap.set('v', 'K', ":m '<-2<CR>gv=gv")
