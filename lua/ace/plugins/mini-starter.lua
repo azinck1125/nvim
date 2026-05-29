@@ -39,7 +39,18 @@ return {
 
         items = {
           { name = 'Find files', action = 'Telescope find_files', section = 'Actions' },
-          { name = 'Open File Tree', action = 'Neotree toggle', section = 'Actions' },
+          {
+            name = 'Open File Tree',
+            action = function()
+              require('neo-tree.command').execute {
+                action = 'focus',
+                source = 'filesystem',
+                dir = vim.fn.getcwd(),
+                reveal = false,
+              }
+            end,
+            section = 'Actions',
+          },
           -- { name = 'Recent files', action = 'Telescope oldfiles', section = 'Actions' },
           -- { name = 'Config', action = 'e ~/.config/nvim', section = 'Actions' },
           { name = 'Quit', action = 'qa', section = 'Actions' },

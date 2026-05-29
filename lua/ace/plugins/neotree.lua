@@ -8,7 +8,19 @@ return {
     'MunifTanjim/nui.nvim',
   },
   keys = {
-    { '<leader>e', '<cmd>Neotree toggle<cr>', desc = 'Explorer (Neo-tree)' },
+    {
+      '<leader>e',
+      function()
+        require('neo-tree.command').execute {
+          action = 'focus',
+          source = 'filesystem',
+          toggle = true,
+          dir = vim.fn.getcwd(),
+          reveal = true,
+        }
+      end,
+      desc = 'Explorer (Neo-tree)',
+    },
     --{ '<leader>rr', '<cmd>Neotree reveal<cr>', desc = 'Reveal file in Neo-tree' },
     { '<leader>be', '<cmd>Neotree buffers toggle<cr>', desc = 'Buffers (Neo-tree)' },
   },
@@ -59,12 +71,17 @@ return {
 
         local ok_cmd, cmd = pcall(require, 'neo-tree.command')
         local ok_mgr, mgr = pcall(require, 'neo-tree.sources.manager')
+        local ok_utils, utils = pcall(require, 'neo-tree.utils')
         if not (ok_cmd and ok_mgr) then return end
+        if not ok_utils then return end
 
         local state = mgr.get_state 'filesystem'
         if not state or not state.winid or not vim.api.nvim_win_is_valid(state.winid) then
           return -- Neo-tree not open; don't auto-open it
         end
+
+        local root = state.path or mgr.get_cwd(state)
+        if not utils.is_subpath(root, name) then return end
 
         cmd.execute {
           action = 'reveal',
